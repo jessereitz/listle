@@ -7,6 +7,8 @@ COPY ./listle /app/listle
 COPY ./deploy /app/deploy
 RUN pip install -r deploy/requirements.txt
 
+
+FROM base as local
 ENV FLASK_APP=listle
 ENV FLASK_ENV=dev
 ENV FLASK_DEBUG=True
@@ -21,11 +23,9 @@ CMD flask run --host 0.0.0.0
 # CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 notifyless.wsgi:application
 
 
-
-# ########################################################
-# # TESTER
-# ########################################################
-# FROM base AS tester
-# # FIXME: use a separate dockerfile for testing
-# RUN pip install -r deploy/requirements-test.txt
-# CMD ["flake8"]
+########################################################
+# TESTER
+########################################################
+FROM local AS tester
+COPY ./setup.cfg /
+RUN pip install -r deploy/requirements-test.txt

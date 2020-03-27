@@ -13,7 +13,7 @@ class Record:
         self.fields = self._request.json
         self.user_agent = self._request.user_agent
 
-        self.uuid = uuid.uuid4()
+        self.uuid = str(uuid.uuid4())
 
     def __iter__(self):
         yield from self.as_dict().items()
