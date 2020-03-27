@@ -1,0 +1,12 @@
+version: "3.4"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # target: local
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
