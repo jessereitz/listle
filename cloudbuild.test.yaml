@@ -12,7 +12,13 @@ steps:
     timeout: 500s
 
   - name: "gcr.io/cloud-builders/docker"
-    args: ["run", "gcr.io/$PROJECT_ID/listle-tester"]
+    args: ["run", "gcr.io/$PROJECT_ID/listle-tester", "flake8"]
+    env:
+      - ENV=test
+      - FLASK_ENV=test
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["run", "gcr.io/$PROJECT_ID/listle-tester", "pytest"]
     env:
       - ENV=test
       - FLASK_ENV=test
