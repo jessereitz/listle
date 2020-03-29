@@ -1,0 +1,17 @@
+steps:
+  # build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--target",
+        "prod",
+        "-t",
+        "gcr.io/$PROJECT_ID/listle:$COMMIT_SHA",
+        ".",
+      ]
+  # push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/listle:$COMMIT_SHA"]
+images:
+  - "gcr.io/$PROJECT_ID/notifyless:$COMMIT_SHA"
