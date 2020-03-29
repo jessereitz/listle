@@ -9,6 +9,7 @@ docker build --tag $TAG --target tester .
 
 # No arguments were passed in, so we'll assume you want to run everything
 if [ $# -eq 0 ]; then
+    TEST_ARGS=tests/
     echo "Running flake8..."
     docker run --rm "$TAG" flake8
 

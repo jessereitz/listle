@@ -27,11 +27,13 @@ User Agent: {user_agent}
 
 
 class EmailConnector:
+    EMAIL_SUBJECT = 'New Listle Record'
     _client = None
 
     def __init__(self, record):
         self.record = record
         self.from_email = config['from_email']
+        self.to_email = config['to_email']
         self.host = config['host']
         self.port = config['port']
         self.user = config['user']
@@ -48,9 +50,9 @@ class EmailConnector:
     def build_message(self):
         msg = EmailMessage()
         msg.set_content(self._build_content())
-        msg['Subject'] = 'test'
+        msg['Subject'] = self.EMAIL_SUBJECT
         msg['From'] = self.from_email
-        msg['To'] = 'jessereitz1@gmail.com'
+        msg['To'] = self.to_email
         return msg
 
     def _build_content(self):
@@ -62,24 +64,18 @@ class EmailConnector:
             record_id=self.record.id,
             datetime=self.record.datetime,
             charset=self.record.charset,
-            headers=json.dumps(dict(self.record.headers)),  # TODO: as string
+            headers=json.dumps(dict(self.record.headers)),
             user_agent=json.dumps(self.record.ua_as_dict()),
         )
 
         content = f'{PLAIN_TEXT_TEMPLATE}{field_content}{meta_info}'
         return content
 
-    def send_message(self):
+    def dispatch(self):
         logger.info('Building message')
         msg = self.build_message()
-        res = None
         try:
-            res = self.client.send_message(msg)
+            self.client.send_message(msg)
         except Exception as e:
             logger.warning('Unable to send email')
             logger.exception(e)
-
-        logger.info(res)
-
-    def dispatch(self):
-        self.send_message()

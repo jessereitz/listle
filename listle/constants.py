@@ -24,11 +24,12 @@ LOGGING_CONF = {
 }
 
 EMAIL_CONNECTOR_CONFIG = {
-    'from_email': 'jesse@notifyless.com',
-    'host': 'smtp.mailgun.org',
-    'port': 465,
-    'user': 'temp@mg.notifyless.com',
-    'password': '386171e0ac3a1b2080dd34289a4718b3-ed4dc7c4-9472290f',
+    'from_email': os.getenv('FROM_EMAIL'),
+    'to_email': os.getenv('TO_EMAIL'),
+    'host': os.getenv('EMAIL_HOST'),
+    'port': os.getenv('EMAIL_PORT'),
+    'user': os.getenv('EMAIL_USER'),
+    'password': os.getenv('EMAIL_PASSWORD'),
 }
 
 ENABLED_CONNECTORS = os.getenv('ENABLED_CONNECTORS', '').split(',')
