@@ -74,8 +74,4 @@ class EmailConnector:
     def dispatch(self):
         logger.info('Building message')
         msg = self.build_message()
-        try:
-            self.client.send_message(msg)
-        except Exception as e:
-            logger.warning('Unable to send email')
-            logger.exception(e)
+        self.client.send_message(msg)
