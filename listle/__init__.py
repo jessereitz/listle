@@ -34,6 +34,6 @@ def create_app():
 
     @app.route('/health', methods=('GET',))
     def health_check():
-        return "healthy"
+        return 'healthy'
 
     return app
