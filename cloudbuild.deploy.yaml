@@ -13,5 +13,6 @@ steps:
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/listle:$COMMIT_SHA"]
-images:
-  - "gcr.io/$PROJECT_ID/notifyless:$COMMIT_SHA"
+
+  images:
+    - "gcr.io/$PROJECT_ID/listle:$COMMIT_SHA"
