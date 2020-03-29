@@ -1,4 +1,3 @@
-import json
 import logging
 
 from google.cloud import firestore

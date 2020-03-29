@@ -13,7 +13,7 @@ class Record:
         self.fields = self._request.json
         self.user_agent = self._request.user_agent
 
-        self.datetime = datetime.now(timezone.utc).isoformat()  # TODO: timezone aware
+        self.datetime = datetime.now(timezone.utc).isoformat()
         self.id = str(uuid.uuid4())
 
     def __iter__(self):

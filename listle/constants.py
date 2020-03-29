@@ -1,3 +1,5 @@
+import os
+
 LOGGING_CONF = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -28,3 +30,5 @@ EMAIL_CONNECTOR_CONFIG = {
     'user': 'temp@mg.notifyless.com',
     'password': '386171e0ac3a1b2080dd34289a4718b3-ed4dc7c4-9472290f',
 }
+
+ENABLED_CONNECTORS = os.getenv('ENABLED_CONNECTORS', '').split(',')

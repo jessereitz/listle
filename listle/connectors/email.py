@@ -72,7 +72,6 @@ class EmailConnector:
     def send_message(self):
         logger.info('Building message')
         msg = self.build_message()
-        logger.info(msg)
         res = None
         try:
             res = self.client.send_message(msg)

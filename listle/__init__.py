@@ -11,6 +11,18 @@ from listle.connectors import EmailConnector, FirestoreConnector
 logger = logging.getLogger(__name__)
 
 
+def get_connectors():
+    connectors = []
+    enabled = constants.ENABLED_CONNECTORS
+    if 'email' in enabled:
+        connectors.append(EmailConnector)
+
+    if 'firestore' in enabled:
+        connectors.append(FirestoreConnector)
+
+    yield from connectors
+
+
 def create_app():
     dictConfig(constants.LOGGING_CONF)
     werkzeug_log = logging.getLogger('werkzeug')
@@ -24,12 +36,11 @@ def create_app():
 
     @app.route('/', methods=('POST',))
     def create_record():
-        logger.info("creating")
         record = models.Record(request)
-        # ec = EmailConnector(record)
-        # ec.send_message()
-        fsc = FirestoreConnector(record)
-        fsc.dispatch()
+        for connector_class in get_connectors():
+            c = connector_class(record)
+            c.dispatch()
+
         response = 'success'
         return response
 

@@ -19,8 +19,8 @@ CMD flask run --host 0.0.0.0
 # ########################################################
 # # PROD
 # ########################################################
-# FROM base as prod
-# CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 notifyless.wsgi:application
+FROM base as prod
+CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 "listle:create_app()"
 
 
 ########################################################
@@ -28,4 +28,5 @@ CMD flask run --host 0.0.0.0
 ########################################################
 FROM local AS tester
 COPY ./setup.cfg /
+COPY ./tests /app/tests
 RUN pip install -r deploy/requirements-test.txt
