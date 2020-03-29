@@ -5,6 +5,10 @@ from flask import Flask, request
 from flask_cors import CORS
 
 from listle import constants, models, utils
+from listle.connectors import EmailConnector, FirestoreConnector
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_app():
@@ -18,14 +22,14 @@ def create_app():
     app.before_request(utils.log_request)
     app.after_request(utils.log_response)
 
-    @app.route('/', methods=('GET',))
-    def index():
-        return 'success'
-
     @app.route('/', methods=('POST',))
     def create_record():
+        logger.info("creating")
         record = models.Record(request)
-        print(dict(record))
+        # ec = EmailConnector(record)
+        # ec.send_message()
+        fsc = FirestoreConnector(record)
+        fsc.dispatch()
         response = 'success'
         return response
 

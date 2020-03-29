@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class Record:
@@ -13,7 +13,8 @@ class Record:
         self.fields = self._request.json
         self.user_agent = self._request.user_agent
 
-        self.uuid = str(uuid.uuid4())
+        self.datetime = datetime.now(timezone.utc).isoformat()  # TODO: timezone aware
+        self.id = str(uuid.uuid4())
 
     def __iter__(self):
         yield from self.as_dict().items()
@@ -24,10 +25,10 @@ class Record:
     def __repr__(self):
         return f'<Record {self.uuid}>'
 
-    def as_dict(self):
+    def ua_as_dict(self):
         ua = self._request.user_agent
 
-        ua_as_dict = {
+        d = {
             'string': ua.string,
             'platform': ua.platform,
             'browser': ua.browser,
@@ -35,14 +36,17 @@ class Record:
             'language': ua.language,
         }
 
+        return d
+
+    def as_dict(self):
         d = {
-            'id': self.uuid,
+            'id': self.id,
             'meta': {
                 'charset': self.charset,
                 'url': self.url,
-                'datetime': datetime.now().isoformat(),
+                'datetime': self.datetime,
                 'headers': dict(self.headers),
-                'user_agent': ua_as_dict,
+                'user_agent': self.ua_as_dict(),
             },
             'fields': self.fields,
         }
