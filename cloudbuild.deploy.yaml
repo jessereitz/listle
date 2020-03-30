@@ -17,7 +17,7 @@ steps:
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
-        "containers",
+        "container",
         "images",
         "add-tag",
         "gcr.io/$PROJECT_ID/listle:$SHORT_SHA",
