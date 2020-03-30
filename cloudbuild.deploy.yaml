@@ -7,12 +7,12 @@ steps:
         "--target",
         "prod",
         "-t",
-        "gcr.io/$PROJECT_ID/listle:$SHORT_SHA",
+        "gcr.io/$PROJECT_ID/listle:$SHORT_SHA:latest",
         ".",
       ]
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/listle:$SHORT_SHA"]
+    args: ["push", "gcr.io/$PROJECT_ID/listle:$SHORT_SHA:latest"]
 
 images:
-  - "gcr.io/$PROJECT_ID/listle:$SHORT_SHA"
+  - "gcr.io/$PROJECT_ID/listle:$SHORT_SHA:latest"
