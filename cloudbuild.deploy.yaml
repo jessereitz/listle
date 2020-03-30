@@ -10,17 +10,19 @@ steps:
         "gcr.io/$PROJECT_ID/listle:$SHORT_SHA",
         ".",
       ]
-  # tag image as latest
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "tag",
-        "gcr.io/$PROJECT_ID/listle:$SHORT_SHA",
-        "gcr.io/$PROJECT_ID/listle:latest",
-      ]
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/listle:$SHORT_SHA"]
+  # tag image as latest
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "containers",
+        "images",
+        "add-tag",
+        "gcr.io/$PROJECT_ID/listle:$SHORT_SHA",
+        "gcr.io/$PROJECT_ID/listle:latest",
+      ]
 
 images:
   - "gcr.io/$PROJECT_ID/listle:$SHORT_SHA"
